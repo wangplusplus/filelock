@@ -10,7 +10,7 @@ int main()
 {
     int file_desc;
     int byte_count;
-    char *byte_to_write = "A";
+    const char *byte_to_write = "A";
     struct flock region_1;
     struct flock region_2;
 
@@ -29,12 +29,14 @@ int main()
         (void)write(file_desc, byte_to_write, 1);
     }
 
+    /* 把文件的10~30字节设为区域1，并在其上设置共享锁 */
     region_1.l_type   = F_RDLCK;
     region_1.l_whence = SEEK_SET;
     region_1.l_start  = 10;
     region_1.l_len    = 20;
 
-    region_2.l_type   = F_RDLCK;
+    /* 把文件的40~50字节设为区域2，并在其上设置独占锁 */
+    region_2.l_type   = F_WRLCK;
     region_2.l_whence = SEEK_SET;
     region_2.l_start  = 40;
     region_2.l_len    = 10;
@@ -54,7 +56,7 @@ int main()
         fprintf(stderr, "Failed to lock region 2\n");
     }
 
-    sleep(60);
+    sleep(60); // 在关闭文件和退出程序前等待60s
 
     printf("Process %d closing file\n", getpid());
     close(file_desc);
