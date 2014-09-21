@@ -32,13 +32,13 @@ int main()
 
     for (start_byte = 0; start_byte < 99; start_byte += SIZE_TO_TRY)
     {
-        region_to_test.l_type = F_WRLCK;
+        region_to_test.l_type   = F_WRLCK;
         region_to_test.l_whence = SEEK_SET;
-        region_to_test.l_start = start_byte;
-        region_to_test.l_len = SIZE_TO_TRY;
-        region_to_test.l_pid = -1;
+        region_to_test.l_start  = start_byte;
+        region_to_test.l_len    = SIZE_TO_TRY;
+        region_to_test.l_pid    = -1;
 
-        printf("Testing F_GETLK on region from %d to %d\n", start_byte, (start_byte + SIZE_TO_TRY));
+        printf("Testing F_WRLCK on region from %d to %d\n", start_byte, (start_byte + SIZE_TO_TRY));
 
         res = fcntl(file_desc, F_GETLK, &region_to_test);
         if (-1 == res)
@@ -57,11 +57,11 @@ int main()
             printf("F_WRLCK - Lock would succeed\n");
         }
 
-        region_to_test.l_type = F_RDLCK;
+        region_to_test.l_type   = F_RDLCK;
         region_to_test.l_whence = SEEK_SET;
-        region_to_test.l_start = start_byte;
-        region_to_test.l_len = SIZE_TO_TRY;
-        region_to_test.l_pid = -1;
+        region_to_test.l_start  = start_byte;
+        region_to_test.l_len    = SIZE_TO_TRY;
+        region_to_test.l_pid    = -1;
 
         printf("Testing F_RDLCK on region from %d to %d\n", start_byte, start_byte + SIZE_TO_TRY);
 
