@@ -81,7 +81,7 @@ int main()
         printf("Process %d - unlocked region\n", getpid());
     }
 
-    region_to_lock.l_type   = F_WRLCK; // 去锁
+    region_to_lock.l_type   = F_WRLCK; // 独占锁 
     region_to_lock.l_whence = SEEK_SET;
     region_to_lock.l_start  = 16;
     region_to_lock.l_len    = 5;
